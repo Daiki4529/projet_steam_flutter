@@ -49,7 +49,7 @@ class LikeList extends StatelessWidget {
             Text(
               "Vous n'avez encore pas liké de contenu.\nCliquez sur le coeur pour en rajouter.",
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                height: 2
+                height: 1.5
               ),
               textAlign: TextAlign.center,
             ),
