@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:projet_steam/component/card_game.dart';
 
 class WishList extends StatelessWidget {
-  const WishList({super.key});
+  final List<String> games;
+
+  const WishList({super.key, required this.games});
 
   @override
   Widget build(BuildContext context) {
@@ -30,25 +33,32 @@ class WishList extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color(0xFF131B27)
         ),
-        child: Column(
+        child: games.isEmpty ? Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(
-              'res/svg/wishlist.svg',
-              width: 100,
-              height: 100,
+              'res/svg/empty_wishlist.svg',
+              width: 125,
+              height: 125
             ),
+            SizedBox(height: 50),
             Text(
-              "Vous n'avez encore pas liké de contenu.",
-              style: TextStyle(color: Colors.white),
+              "Vous n'avez encore pas liké de contenu.\nCliquez sur l'étoile pour en rajouter.",
+              style: TextStyle(
+                color: Colors.white,
+                height: 2
+              ),
+              textAlign: TextAlign.center,
             ),
-            Text(
-              "Cliquez sur l'étoile pour en rajouter.",
-              style: TextStyle(color: Colors.white),
-            )
           ],
-        ),
+        ):
+          ListView.builder(
+            itemCount: games.length,
+            itemBuilder: (context, index) {
+              return CardGame(gameName: games[index]);
+            }
+          )
       ),
     );
   }

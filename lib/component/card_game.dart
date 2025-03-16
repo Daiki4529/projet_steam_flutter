@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CardGame extends StatelessWidget {
-  const CardGame({super.key});
+  final String gameName;
+
+  const CardGame({super.key, required this.gameName});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class CardGame extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Nom du jeu",
+                "$gameName",
                 style: TextStyle(color: Colors.white)
               ),
               Text(

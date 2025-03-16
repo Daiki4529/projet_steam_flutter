@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:projet_steam/component/card_game.dart';
 
 class LikeList extends StatelessWidget {
-  const LikeList({super.key});
+  final List<String> games;
+
+  const LikeList({super.key, required this.games});
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +35,33 @@ class LikeList extends StatelessWidget {
         decoration: BoxDecoration(
           color: Color(0xFF131B27)
         ),
-        child: Column(
+        width: double.infinity,
+        child: games.isEmpty ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CardGame(),
-            CardGame(),
-            CardGame()
+            SvgPicture.asset(
+                'res/svg/empty_likes.svg',
+                width: 125,
+                height: 125
+            ),
+            SizedBox(height: 50),
+            Text(
+              "Vous n'avez encore pas liké de contenu.\nCliquez sur le coeur pour en rajouter.",
+              style: TextStyle(
+                  color: Colors.white,
+                  height: 2
+              ),
+              textAlign: TextAlign.center,
+            ),
           ],
-        ),
+        ):
+        ListView.builder(
+            itemCount: games.length,
+            itemBuilder: (context, index) {
+              return CardGame(gameName: games[index]);
+            }
+        )
       ),
     );
   }
