@@ -21,7 +21,7 @@ class LikeList extends StatelessWidget {
             ),
             Text(
               'Mes likes',
-              style: TextStyle(color: Colors.white),
+              style: Theme.of(context).textTheme.titleLarge,
             )
           ],
         ),
@@ -48,9 +48,8 @@ class LikeList extends StatelessWidget {
             SizedBox(height: 50),
             Text(
               "Vous n'avez encore pas liké de contenu.\nCliquez sur le coeur pour en rajouter.",
-              style: TextStyle(
-                  color: Colors.white,
-                  height: 2
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                height: 2
               ),
               textAlign: TextAlign.center,
             ),

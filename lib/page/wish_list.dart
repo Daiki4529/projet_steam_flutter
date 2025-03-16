@@ -21,7 +21,7 @@ class WishList extends StatelessWidget {
             ),
             Text(
               'Ma liste de souhaits',
-              style: TextStyle(color: Colors.white),
+              style: Theme.of(context).textTheme.titleLarge,
             )
           ],
         ),
@@ -45,8 +45,7 @@ class WishList extends StatelessWidget {
             SizedBox(height: 50),
             Text(
               "Vous n'avez encore pas liké de contenu.\nCliquez sur l'étoile pour en rajouter.",
-              style: TextStyle(
-                color: Colors.white,
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 height: 2
               ),
               textAlign: TextAlign.center,

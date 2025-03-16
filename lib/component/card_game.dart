@@ -34,15 +34,15 @@ class CardGame extends StatelessWidget {
             children: [
               Text(
                 "$gameName",
-                style: TextStyle(color: Colors.white)
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
                 "Nom de l'éditeur",
-                style: TextStyle(color: Colors.white)
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
                 "Prix : 10.00",
-                style: TextStyle(color: Colors.white)
+                style: Theme.of(context).textTheme.bodySmall,
               )
             ],
           ),
@@ -50,6 +50,10 @@ class CardGame extends StatelessWidget {
           TextButton(
             onPressed: () {},
             style: TextButton.styleFrom(
+              padding: EdgeInsetsDirectional.only(
+                start: 25,
+                end: 25
+              ),
               backgroundColor: Color(0xFF4800FF),
               minimumSize: Size(120,double.infinity),
               shape: RoundedRectangleBorder(
@@ -62,11 +66,9 @@ class CardGame extends StatelessWidget {
               )
             ),
             child: Text(
-              "En savoir plus",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18
-              )
+              "En savoir\nplus",
+              style: Theme.of(context).textTheme.titleLarge,
+              textAlign: TextAlign.center,
             )
           )
         ],
