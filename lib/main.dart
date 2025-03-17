@@ -44,7 +44,7 @@ class MainApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: Center(
-          child: LikeList(games: ["test"]),
+          child: LikeList(games: []),
         ),
       ),
     );
