@@ -34,15 +34,15 @@ class CardGame extends StatelessWidget {
             children: [
               Text(
                 "$gameName",
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               Text(
                 "Nom de l'éditeur",
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               Text(
                 "Prix : 10.00",
-                style: Theme.of(context).textTheme.bodySmall,
+                style: Theme.of(context).textTheme.bodyMedium,
               )
             ],
           ),

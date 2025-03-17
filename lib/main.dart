@@ -33,10 +33,18 @@ class MainApp extends StatelessWidget {
             labelSmall: TextStyle(color: Colors.white),
           )
         ),
+        scaffoldBackgroundColor: Color(0xFF111822),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Color(0xFF0D131B),
+          iconTheme: IconThemeData(
+            color: Colors.white,
+            size: 30
+          )
+        )
       ),
       home: Scaffold(
         body: Center(
-          child: LikeList(games: []),
+          child: LikeList(games: ["test"]),
         ),
       ),
     );

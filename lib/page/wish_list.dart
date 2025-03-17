@@ -16,7 +16,6 @@ class WishList extends StatelessWidget {
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.close),
-              color: Colors.white,
               iconSize: 30,
             ),
             Text(
@@ -26,12 +25,10 @@ class WishList extends StatelessWidget {
           ],
         ),
         centerTitle: false,
-        backgroundColor: Color(0xFF111822),
       ),
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xFF131B27)
         ),
         child: games.isEmpty ? Column(
           mainAxisAlignment: MainAxisAlignment.center,

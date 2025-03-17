@@ -16,8 +16,6 @@ class LikeList extends StatelessWidget {
             IconButton(
               onPressed: () {},
               icon: Icon(Icons.close),
-              color: Colors.white,
-              iconSize: 30,
             ),
             Text(
               'Mes likes',
@@ -26,14 +24,12 @@ class LikeList extends StatelessWidget {
           ],
         ),
         centerTitle: false,
-        backgroundColor: Color(0xFF111822),
       ),
       body: Container(
         padding: EdgeInsetsDirectional.only(
           top: 10
         ),
         decoration: BoxDecoration(
-          color: Color(0xFF131B27)
         ),
         width: double.infinity,
         child: games.isEmpty ? Column(
