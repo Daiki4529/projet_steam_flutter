@@ -1,3 +1,6 @@
+import 'package:projet_steam/models/game_details.dart';
+import 'package:projet_steam/repositories/steam_repository.dart';
+
 class Game {
   final String appId;
   final String name;
@@ -13,4 +16,8 @@ class Game {
 
   @override
   String toString() => 'Game(appId: $appId, name: $name)';
+
+  Future<GameDetails> toGameDetails() {
+    return SteamRepository().fetchGameDetails(appId);
+  }
 }
