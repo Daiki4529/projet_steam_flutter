@@ -5,31 +5,22 @@ import 'package:projet_steam/components/game_cart.dart';
 import 'package:projet_steam/repositories/steam_repository.dart';
 
 class GameDetailsPage extends StatelessWidget {
-  final String appId;
+  // final String appId;
+  final List<String> appIds;
 
-  const GameDetailsPage({super.key, required this.appId});
+  const GameDetailsPage({super.key, required this.appIds});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => GameDetailsBloc(steamRepository: SteamRepository())
-        ..add(FetchGameDetails(appId: appId)),
+        ..add(FetchAllGameDetails(appIds: appIds)),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Game Details'),
         ),
-        body: BlocBuilder<GameDetailsBloc, GameDetailsState>(
-          builder: (context, state) {
-            if (state is GameDetailsLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is GameDetailsLoaded) {
-              final gameDetails = state.gameDetails;
-              return GameCard(gameDetails: gameDetails);
-            } else if (state is GameDetailsError) {
-              return Center(child: Text('Error: ${state.message}'));
-            }
-            return const SizedBox.shrink();
-          },
+        body: Column(
+          children: appIds.map((appId) => GameCard(appId: appId)).toList(),
         ),
       ),
     );

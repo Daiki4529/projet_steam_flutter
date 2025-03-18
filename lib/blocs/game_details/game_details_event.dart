@@ -15,3 +15,12 @@ class FetchGameDetails extends GameDetailsEvent {
   @override
   List<Object> get props => [appId];
 }
+
+class FetchAllGameDetails extends GameDetailsEvent {
+  final List<String> appIds;
+
+  const FetchAllGameDetails({required this.appIds});
+
+  @override
+  List<Object> get props => [appIds];
+}

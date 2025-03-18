@@ -47,6 +47,19 @@ class SteamRepository {
     }
   }
 
+  Future<List<GameDetails>> fetchAllGameDetails(List<String> appIds) async {
+    final List<GameDetails> gameDetailsList = [];
+    for (var appId in appIds) {
+      try {
+        final gameDetails = await fetchGameDetails(appId);
+        gameDetailsList.add(gameDetails);
+      } catch (e) {
+        throw Exception('Erreur lors de la récupération des détails du jeu: $e');
+      }
+    }
+    return gameDetailsList;
+  }
+
   Future<List<Review>> fetchGameReviews(String apiId) async {
     final url = 'https://store.steampowered.com/appreviews/$apiId?json=1';
     try {

@@ -20,6 +20,16 @@ class GameDetailsBloc extends Bloc<GameDetailsEvent, GameDetailsState> {
         emit(GameDetailsError(message: e.toString()));
       }
     });
+
+    on<FetchAllGameDetails>((event, emit) async {
+      emit(GameDetailsLoading());
+      try {
+        final gameDetailsList = await steamRepository.fetchAllGameDetails(event.appIds);
+        emit(AllGamesDetailsLoaded(gameDetailsList: gameDetailsList));
+      } catch (e) {
+        emit(GameDetailsError(message: e.toString()));
+      }
+    });
   }
 }
 

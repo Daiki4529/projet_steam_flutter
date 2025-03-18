@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:projet_steam/blocs/game_details/game_details_bloc.dart';
 import 'package:projet_steam/models/game_details.dart';
 
 class GameCard extends StatelessWidget {
-  final GameDetails gameDetails;
+  final String appId;
 
-  const GameCard({super.key, required this.gameDetails});
+  const GameCard({super.key, required this.appId});
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<GameDetailsBloc, GameDetailsState>(
+      builder: (context, state) {
+        if (state is GameDetailsLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is AllGamesDetailsLoaded) {
+          final data = state.gameDetailsList.where((gameDetails) => gameDetails.appId == appId).first;
+          return _buildGameCard(context, data);
+        } else if (state is GameDetailsError) {
+          return Center(child: Text('Error: ${state.message}'));
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildGameCard(BuildContext context, GameDetails gameDetails) {
     return Container(
       margin: EdgeInsetsDirectional.only(start: 10, top: 5, end: 10, bottom: 5),
       width: double.infinity,

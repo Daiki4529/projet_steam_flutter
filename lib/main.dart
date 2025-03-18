@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:projet_steam/pages/home_page.dart';
 import 'package:projet_steam/template_game.dart';
 
 void main() {
-  const appId = "431960";
-  runApp(MyApp(appId: appId));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String appId;
-  const MyApp({super.key, required this.appId});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: steamAppTheme(context),
       debugShowCheckedModeBanner: false,
-      home: GameDetailsPage(appId: appId),
+      home: GameDetailsPage(appIds: ["431960", "730"]),
     );
   }
 }

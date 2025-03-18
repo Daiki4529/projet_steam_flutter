@@ -28,3 +28,12 @@ class GameDetailsError extends GameDetailsState {
   @override
   List<Object> get props => [message];
 }
+
+class AllGamesDetailsLoaded extends GameDetailsState {
+  final List<GameDetails> gameDetailsList;
+
+  const AllGamesDetailsLoaded({required this.gameDetailsList});
+
+  @override
+  List<Object> get props => [gameDetailsList];
+}
