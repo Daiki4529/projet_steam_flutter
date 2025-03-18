@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:projet_steam/blocs/game_details_bloc.dart';
+import 'package:projet_steam/blocs/game_details/game_details_bloc.dart';
 import 'package:projet_steam/components/game_cart.dart';
 import 'package:projet_steam/repositories/steam_repository.dart';
 
