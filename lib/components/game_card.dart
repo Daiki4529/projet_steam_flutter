@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:projet_steam/models/game_details.dart';
 
-class CardGame extends StatelessWidget {
-  final String gameName;
+class GameCard extends StatelessWidget {
+  final GameDetails gameDetails;
 
-  const CardGame({super.key, required this.gameName});
+  const GameCard({super.key, required this.gameDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class CardGame extends StatelessWidget {
       child: Row(
         children: [
           Image.asset(
-            'res/img/destiny2.jpg',
+            gameDetails.coverImage,
             width: 100,
             height: 100,
           ),
@@ -33,17 +34,23 @@ class CardGame extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "$gameName",
+                gameDetails.gameName,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               Text(
-                "Nom de l'éditeur",
+                gameDetails.editors.join(", "),
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
-              Text(
-                "Prix : 10.00",
-                style: Theme.of(context).textTheme.bodyMedium,
-              )
+              if (!gameDetails.isFree)
+                Text(
+                  "Prix : ${gameDetails.price.toString()}",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                )
+              else
+                Text(
+                  "Gratuit",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                )
             ],
           ),
           Spacer(),

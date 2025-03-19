@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:projet_steam/component/card_game.dart';
+import 'package:projet_steam/components/game_card.dart';
 
 class LikeList extends StatelessWidget {
   final List<String> games;
@@ -54,7 +54,7 @@ class LikeList extends StatelessWidget {
         ListView.builder(
             itemCount: games.length,
             itemBuilder: (context, index) {
-              return CardGame(gameName: games[index]);
+
             }
         )
       ),
