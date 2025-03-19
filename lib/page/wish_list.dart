@@ -50,9 +50,8 @@ class WishList extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final gameDetails = state.gameDetailsList[index];
                     return GameCard(gameDetails: gameDetails);
-                  },
+                  }
                 );
-                //return CardGame(gameDetails: state.gameDetails);
               } else if (state is GameDetailsError) {
                 return Center(
                   child: Text('Erreur : ${state.message}')
@@ -74,13 +73,13 @@ class WishList extends StatelessWidget {
                         height: 1.5
                     ),
                     textAlign: TextAlign.center,
-                  ),
-                ],
+                  )
+                ]
               );
             }
           )
-        ),
-      ),
+        )
+      )
     );
   }
 }
