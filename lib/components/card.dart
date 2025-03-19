@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:projet_steam/blocs/game_details/game_details_bloc.dart';
 import 'package:projet_steam/models/game_details.dart';
 
 class GameCard extends StatelessWidget {
-  final String appId;
+  final GameDetails gameDetails;
 
-  const GameCard({super.key, required this.appId});
+  const GameCard({super.key, required this.gameDetails});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GameDetailsBloc, GameDetailsState>(
-      builder: (context, state) {
-        if (state is GameDetailsLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is AllGamesDetailsLoaded) {
-          final data = state.gameDetailsList.where((gameDetails) => gameDetails.appId == appId).first;
-          return _buildGameCard(context, data);
-        } else if (state is GameDetailsError) {
-          return Center(child: Text('Error: ${state.message}'));
-        }
-        return const SizedBox.shrink();
-      },
-    );
+    return _buildGameCard(context, gameDetails);
   }
 
   Widget _buildGameCard(BuildContext context, GameDetails gameDetails) {
@@ -31,7 +17,8 @@ class GameCard extends StatelessWidget {
       width: double.infinity,
       height: 150,
       decoration: BoxDecoration(
-          color: Color(0xFF182332), borderRadius: BorderRadius.circular(5)),
+          color: const Color(0xFF182332),
+          borderRadius: BorderRadius.circular(5)),
       child: Row(
         children: [
           Image.network(
@@ -39,7 +26,7 @@ class GameCard extends StatelessWidget {
             width: 100,
             height: 100,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,18 +53,16 @@ class GameCard extends StatelessWidget {
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           TextButton(
             onPressed: () {},
             style: TextButton.styleFrom(
-                padding: EdgeInsetsDirectional.only(start: 25, end: 25),
-                backgroundColor: Color(0xFF4800FF),
-                minimumSize: Size(120, double.infinity),
-                shape: RoundedRectangleBorder(
+                padding: const EdgeInsetsDirectional.only(start: 25, end: 25),
+                backgroundColor: const Color(0xFF4800FF),
+                minimumSize: const Size(120, double.infinity),
+                shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(0),
                         topRight: Radius.circular(5),
-                        bottomLeft: Radius.circular(0),
                         bottomRight: Radius.circular(5)))),
             child: Text(
               "En savoir\nplus",

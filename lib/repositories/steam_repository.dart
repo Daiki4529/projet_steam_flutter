@@ -36,7 +36,7 @@ class SteamRepository {
       if (data['success'] == true) {
         // Vérification du prix pour les jeux payants
         if (!data['data']['is_free'] && data['data']['price_overview'] == null) {
-          throw Exception("Jeu payant sans information de prix");
+          data['data']['is_free'] = true;
         }
         return GameDetails.fromJson(data['data']);
       } else {
