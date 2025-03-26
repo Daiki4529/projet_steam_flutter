@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:projet_steam/page/wish_list.dart';
+import 'package:projet_steam/pages/like_list.dart';
+import 'package:projet_steam/pages/wish_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: steamAppTheme(context),
       debugShowCheckedModeBanner: false,
-      home: WishList(appIds: ["431960", "730"]),
+      home: LikeList(),
     );
   }
 }

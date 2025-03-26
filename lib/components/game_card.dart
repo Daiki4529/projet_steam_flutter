@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projet_steam/models/game_details.dart';
+import 'package:projet_steam/assets/app_colors.dart';
 
 class GameCard extends StatelessWidget {
   final GameDetails gameDetails;
@@ -8,77 +9,161 @@ class GameCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsetsDirectional.only(
-        start: 10,
-        top: 5,
-        end: 10,
-        bottom: 5
-      ),
-      width: double.infinity,
-      height: 125,
-      decoration: BoxDecoration(
-        color: Color(0xFF182332),
-        borderRadius: BorderRadius.circular(5)
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            gameDetails.coverImage,
-            width: 100,
-            height: 100,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Material(
+        elevation: 4,
+        shadowColor: Colors.black,
+        surfaceTintColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
           ),
-          SizedBox(width: 10),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+          height: 130,
+          child: Stack(
             children: [
-              Text(
-                gameDetails.gameName,
-                style: Theme.of(context).textTheme.titleMedium,
+              // Image as background
+              Positioned.fill(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    gameDetails.obfuscatedBackground,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) =>
+                    (loadingProgress == null)
+                        ? child
+                        : Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ),
+                    errorBuilder: (context, error, stackTrace) =>
+                    const Center(child: Icon(Icons.error)),
+                  ),
+                ),
               ),
-              Text(
-                gameDetails.editors.join(", "),
-                style: Theme.of(context).textTheme.bodyMedium,
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Colors.black.withValues(alpha: 0.3),
+                  ),
+                ),
               ),
-              if (!gameDetails.isFree)
-                Text(
-                  "Prix : ${gameDetails.price.toString()}",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
-              else
-                Text(
-                  "Gratuit",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
+              // Second widget overlaid on top
+              Positioned.fill(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SizedBox(
+                        width: 66,
+                        height: 98,
+                        child: ClipRRect(
+                          borderRadius:
+                          const BorderRadius.all(Radius.circular(4.0)),
+                          child: Image.network(
+                            gameDetails.coverImage,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.symmetric(
+                            vertical: 16.0)
+                            .copyWith(end: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              gameDetails.gameName,
+                              style: Theme.of(context).textTheme.titleLarge,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(
+                              gameDetails.editors.join(", "),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            gameDetails.isFree
+                                ? Text(
+                              "Gratuit",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                decoration: TextDecoration.underline,
+                              ),
+                            )
+                                : Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "Prix",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                      decoration:
+                                      TextDecoration.underline,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " : ${gameDetails.price}",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final squareSize = constraints.maxHeight;
+                        return SizedBox(
+                          width: squareSize,
+                          height: squareSize,
+                          child: TextButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                              backgroundColor:
+                              WidgetStateProperty.all(AppColors.purpleBlue),
+                              shape: WidgetStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(8.0),
+                                    bottomEnd: Radius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "En savoir plus",
+                              style: Theme.of(context).textTheme.titleLarge,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ),
             ],
           ),
-          Spacer(),
-          TextButton(
-            onPressed: () {},
-            style: TextButton.styleFrom(
-              padding: EdgeInsetsDirectional.only(
-                start: 25,
-                end: 25
-              ),
-              backgroundColor: Color(0xFF4800FF),
-              minimumSize: Size(120,double.infinity),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(0),
-                  topRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(0),
-                  bottomRight: Radius.circular(5)
-                )
-              )
-            ),
-            child: Text(
-              "En savoir\nplus",
-              style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            )
-          )
-        ],
+        ),
       ),
     );
   }
