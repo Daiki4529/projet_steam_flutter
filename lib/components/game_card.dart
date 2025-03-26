@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:projet_steam/assets/app_colors.dart';
 import 'package:projet_steam/models/game_details.dart';
 
@@ -136,7 +137,7 @@ class GameCard extends StatelessWidget {
                           width: squareSize,
                           height: squareSize,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () => context.go("/game/${gameDetails.appId}"),
                             style: ButtonStyle(
                               backgroundColor:
                                   WidgetStateProperty.all(AppColors.purpleBlue),

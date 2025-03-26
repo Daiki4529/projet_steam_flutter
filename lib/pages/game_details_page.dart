@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:go_router/go_router.dart';
 import 'package:projet_steam/assets/app_icons.dart';
 import 'package:projet_steam/models/game_details.dart';
 
 class ProductPageWithTabs extends StatefulWidget {
   static const double kImageHeight = 450.0;
-  final GameDetails gameDetails = GameDetails(
-    appId: "12345",
-    isFree: false,
-    gameName: 'Mock Game',
-    longDescription:
-        'This is a detailed description for the mocked game, used for display purposes.',
-    shortDescription: 'Mock Game Short Description',
-    coverImage: "https://picsum.photos/200/300",
-    background: "https://picsum.photos/600/400",
-    editors: ['Mock Editor 1', 'Mock Editor 2'],
-    obfuscatedBackground: "https://picsum.photos/600/400",
-    price: Price(
-      discountPercent: 0,
-      finalPrice: 59.99,
-      initialPrice: 59.99,
-    ),
-  );
+  final GameDetails gameDetails;
 
-  ProductPageWithTabs({super.key});
+  ProductPageWithTabs({super.key, required this.gameDetails});
 
   @override
   State<ProductPageWithTabs> createState() => _ProductPageWithTabsState();
@@ -59,11 +45,13 @@ class _ProductPageWithTabsState extends State<ProductPageWithTabs> {
             elevation: 0,
             leading: IconButton(
               icon: AppIcons.back.icon,
-              onPressed: () {},
+              onPressed: () => context.pop(),
             ),
-            title: const Text(
-              'Accueil',
+            title: Text(
+              widget.gameDetails.gameName,
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             actions: [
               IconButton(
@@ -221,9 +209,11 @@ class _Body extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
               child: Column(
                 children: [
-                  Text(
-                    gameDetails.longDescription,
-                    style: const TextStyle(fontSize: 15, color: Colors.white),
+                  Html(
+                    data: gameDetails.longDescription,
+                    style: {
+                      "body": Style(fontSize: FontSize(15), color: Colors.white),
+                    },
                   ),
                   const SizedBox(height: 20),
                 ],
