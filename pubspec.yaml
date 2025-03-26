@@ -1,6 +1,6 @@
 name: projet_steam
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -12,8 +12,8 @@ dependencies:
   dio: ^5.8.0+1
   flutter_bloc: ^9.1.0
   equatable: ^2.0.7
-  flutter_svg: ^2.0.17
   google_fonts: ^6.2.1
+  flutter_svg: ^2.0.17
 
 dev_dependencies:
   flutter_test:

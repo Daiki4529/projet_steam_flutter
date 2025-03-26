@@ -8,14 +8,14 @@ part 'most_played_games_state.dart';
 
 class MostPlayedGamesBloc
     extends Bloc<MostPlayedGamesEvent, MostPlayedGamesState> {
-  final SteamRepository repository;
+  final SteamRepository steamRepository;
 
-  MostPlayedGamesBloc({required this.repository})
+  MostPlayedGamesBloc({required this.steamRepository})
       : super(MostPlayedGamesInitial()) {
     on<FetchMostPlayedGames>((event, emit) async {
       emit(MostPlayedGamesLoading());
       try {
-        final games = await repository.fetchMostPlayedGames();
+        final games = await steamRepository.fetchMostPlayedGames();
         emit(MostPlayedGamesLoaded(games: games));
       } catch (e) {
         emit(MostPlayedGamesError(message: e.toString()));

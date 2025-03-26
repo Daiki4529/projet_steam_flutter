@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projet_steam/models/game_details.dart';
 import 'package:projet_steam/assets/app_colors.dart';
+import 'package:projet_steam/models/game_details.dart';
 
 class GameCard extends StatelessWidget {
   final GameDetails gameDetails;
@@ -31,15 +31,15 @@ class GameCard extends StatelessWidget {
                     gameDetails.obfuscatedBackground,
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) =>
-                    (loadingProgress == null)
-                        ? child
-                        : Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
-                    ),
+                        (loadingProgress == null)
+                            ? child
+                            : Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ),
                     errorBuilder: (context, error, stackTrace) =>
-                    const Center(child: Icon(Icons.error)),
+                        const Center(child: Icon(Icons.error)),
                   ),
                 ),
               ),
@@ -58,11 +58,11 @@ class GameCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: SizedBox(
-                        width: 66,
                         height: 98,
+                        width: 66,
                         child: ClipRRect(
                           borderRadius:
-                          const BorderRadius.all(Radius.circular(4.0)),
+                              const BorderRadius.all(Radius.circular(4.0)),
                           child: Image.network(
                             gameDetails.coverImage,
                             fit: BoxFit.cover,
@@ -73,7 +73,7 @@ class GameCard extends StatelessWidget {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsetsDirectional.symmetric(
-                            vertical: 16.0)
+                                vertical: 16.0)
                             .copyWith(end: 16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,36 +95,36 @@ class GameCard extends StatelessWidget {
                             ),
                             gameDetails.isFree
                                 ? Text(
-                              "Gratuit",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                decoration: TextDecoration.underline,
-                              ),
-                            )
-                                : Text.rich(
-                              TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Prix",
+                                    "Gratuit",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                      decoration:
-                                      TextDecoration.underline,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                  )
+                                : Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: "Prix",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
+                                        ),
+                                        TextSpan(
+                                          text: " : ${gameDetails.price}",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  TextSpan(
-                                    text: " : ${gameDetails.price}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -139,7 +139,7 @@ class GameCard extends StatelessWidget {
                             onPressed: () {},
                             style: ButtonStyle(
                               backgroundColor:
-                              WidgetStateProperty.all(AppColors.purpleBlue),
+                                  WidgetStateProperty.all(AppColors.purpleBlue),
                               shape: WidgetStateProperty.all(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadiusDirectional.only(
