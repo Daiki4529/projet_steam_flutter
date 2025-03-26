@@ -56,10 +56,19 @@ class GameCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                          child: Image.network(gameDetails.coverImage)),
+                      padding: const EdgeInsets.all(16.0),
+                      child: SizedBox(
+                        height: 98,
+                        width: 66,
+                        child: ClipRRect(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(4.0)),
+                          child: Image.network(
+                            gameDetails.coverImage,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Padding(
@@ -72,6 +81,8 @@ class GameCard extends StatelessWidget {
                             Text(
                               gameDetails.gameName,
                               style: Theme.of(context).textTheme.titleLarge,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               gameDetails.editors.join(", "),
@@ -106,7 +117,7 @@ class GameCard extends StatelessWidget {
                                               ),
                                         ),
                                         TextSpan(
-                                          text: " : ${gameDetails.price} €",
+                                          text: " : ${gameDetails.price}",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium,

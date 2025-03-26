@@ -55,6 +55,8 @@ class FeaturedGameCard extends StatelessWidget {
                         Text(
                           gameDetails.gameName,
                           style: Theme.of(context).textTheme.headlineLarge,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           gameDetails.shortDescription,
@@ -62,6 +64,8 @@ class FeaturedGameCard extends StatelessWidget {
                               .textTheme
                               .titleMedium
                               ?.copyWith(height: 0),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         TextButton(
                           style: ButtonStyle(
@@ -85,13 +89,19 @@ class FeaturedGameCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Expanded(
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 16.0),
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        child: Image.network(
-                          gameDetails.coverImage,
+                      child: SizedBox(
+                        height: 156,
+                        width: 104,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                          child: Image.network(
+                            gameDetails.coverImage,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),

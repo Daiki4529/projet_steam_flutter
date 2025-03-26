@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           elevation: 4.0,
           title: Text(
-            "Acceuil",
+            "Accueil",
             style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -96,12 +96,10 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           'Les meilleures ventes',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(
-                                decoration: TextDecoration.underline,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    decoration: TextDecoration.underline,
+                                  ),
                         ),
                       ),
                       // Best sellers list: each item updates independently.

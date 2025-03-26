@@ -8,8 +8,8 @@ class DioClient {
       : dio = dio ??
             Dio(BaseOptions(
               // Vous pouvez définir des options communes ici
-              connectTimeout: Duration(milliseconds: 5000),
-              receiveTimeout: Duration(milliseconds: 3000),
+              connectTimeout: Duration(milliseconds: 10000),
+              receiveTimeout: Duration(milliseconds: 10000),
             )) {
     // Exemple d'interceptor (facultatif)
     dio?.interceptors.add(InterceptorsWrapper(

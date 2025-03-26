@@ -27,9 +27,9 @@ class GameDetailsLoader extends StatelessWidget {
           } else if (state is GameDetailsLoaded) {
             return builder(context, state.gameDetails);
           } else if (state is GameDetailsError) {
-            return Center(child: Text("Error: ${state.message}"));
+            return SizedBox.shrink();
           }
-          return Container();
+          return SizedBox.shrink();
         },
       ),
     );
