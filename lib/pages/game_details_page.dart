@@ -6,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:projet_steam/assets/app_colors.dart';
 import 'package:projet_steam/assets/app_icons.dart';
 import 'package:projet_steam/assets/app_values.dart';
+import 'package:projet_steam/blocs/lists/lists_bloc.dart';
 import 'package:projet_steam/blocs/reviews/reviews_bloc.dart';
 import 'package:projet_steam/models/game_details.dart';
 import 'package:projet_steam/models/review.dart';
+import 'package:projet_steam/repositories/firebase_repository.dart';
 import 'package:projet_steam/repositories/steam_repository.dart';
 
 class GameDetailsPage extends StatelessWidget {
@@ -18,136 +20,190 @@ class GameDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: AppIcons.back.icon,
-          onPressed: () => context.pop(),
-        ),
-        title: Text(
-          gameDetails.gameName,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        actions: [
-          IconButton(
-            icon: AppIcons.like.icon,
-            onPressed: () {},
+    return BlocProvider(
+        create: (_) =>
+            ListsBloc(repository: FirebaseRepository())..add(LoadLists()),
+        child: Scaffold(
+          appBar: AppBar(
+            titleSpacing: 0,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: IconButton(
+              icon: AppIcons.back.icon,
+              onPressed: () => context.pop(),
+            ),
+            title: Text(
+              gameDetails.gameName,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            actions: [
+              BlocBuilder<ListsBloc, ListsState>(builder: (context, state) {
+                if (state is ListsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is ListsLoaded) {
+                  return IconButton(
+                    icon: state.likeList.contains(gameDetails.appId)
+                        ? AppIcons.likeFull.icon
+                        : AppIcons.like.icon,
+                    onPressed: () {
+                      if (state.likeList.contains(gameDetails.appId)) {
+                        context.read<ListsBloc>().add(UpdateLists(
+                              likeList: state.likeList
+                                ..remove(gameDetails.appId),
+                              wishList: state.wishList,
+                            ));
+                      } else {
+                        context.read<ListsBloc>().add(UpdateLists(
+                              likeList: state.likeList..add(gameDetails.appId),
+                              wishList: state.wishList,
+                            ));
+                      }
+                    },
+                  );
+                } else if (state is ListsError) {
+                  return const Center(child: Text('Error'));
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
+              BlocBuilder<ListsBloc, ListsState>(builder: (context, state) {
+                if (state is ListsLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is ListsLoaded) {
+                  return IconButton(
+                    icon: state.wishList.contains(gameDetails.appId)
+                        ? AppIcons.wishlistFull.icon
+                        : AppIcons.wishlist.icon,
+                    onPressed: () {
+                      if (state.wishList.contains(gameDetails.appId)) {
+                        context.read<ListsBloc>().add(UpdateLists(
+                              wishList: state.wishList
+                                ..remove(gameDetails.appId),
+                              likeList: state.likeList,
+                            ));
+                      } else {
+                        context.read<ListsBloc>().add(UpdateLists(
+                              wishList: state.wishList..add(gameDetails.appId),
+                              likeList: state.likeList,
+                            ));
+                      }
+                    },
+                  );
+                } else if (state is ListsError) {
+                  return const Center(child: Text('Error'));
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
+            ],
           ),
-          IconButton(
-            icon: AppIcons.wishlist.icon,
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Column(
+          body: Stack(
             children: [
-              Expanded(
-                flex: 1,
-                child: Image.network(
-                  gameDetails.background,
-                  fit: BoxFit.cover,
-                ),
+              Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Image.network(
+                      gameDetails.background,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: _GameDetailsMenuState(
+                      gameDetails: gameDetails,
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 1,
-                child: _GameDetailsMenuState(
-                  gameDetails: gameDetails,
+              Center(
+                child: Container(
+                  width: double.infinity,
+                  height: 120,
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF2b343c),
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.network(
+                            gameDetails.obfuscatedBackground,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) =>
+                                (loadingProgress == null)
+                                    ? child
+                                    : Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Center(child: Icon(Icons.error)),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            // Game image
+                            ClipRRect(
+                              child: Image.network(
+                                gameDetails.coverImage,
+                                width: 70,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(width: 12.0),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    gameDetails.gameName,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                  SizedBox(height: 6.0),
+                                  Text(
+                                    gameDetails.editors.join(", "),
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-          Center(
-            child: Container(
-              width: double.infinity,
-              height: 120,
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                color: Color(0xFF2b343c),
-                borderRadius: BorderRadius.circular(6),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        gameDetails.obfuscatedBackground,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) =>
-                            (loadingProgress == null)
-                                ? child
-                                : Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Center(child: Icon(Icons.error)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        // Game image
-                        ClipRRect(
-                          child: Image.network(
-                            gameDetails.coverImage,
-                            width: 70,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(width: 12.0),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                gameDetails.gameName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              SizedBox(height: 6.0),
-                              Text(
-                                gameDetails.editors.join(", "),
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
@@ -271,11 +327,13 @@ class __GameDetailsMenuStateState extends State<_GameDetailsMenuState> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Text("Loading...",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white));
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white));
                     } else if (snapshot.hasError) {
                       return const Text("Error",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white));
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white));
                     } else {
                       return Text(snapshot.data ?? "",
                           style: const TextStyle(
@@ -292,7 +350,8 @@ class __GameDetailsMenuStateState extends State<_GameDetailsMenuState> {
                       return Icon(Icons.star, color: Colors.amber, size: 16);
                     } else if (review.score > index) {
                       // Half star if the rating is between the star position and the next full star.
-                      return Icon(Icons.star_half, color: Colors.amber, size: 16);
+                      return Icon(Icons.star_half,
+                          color: Colors.amber, size: 16);
                     } else {
                       // Empty star otherwise.
                       return Icon(Icons.star_border,

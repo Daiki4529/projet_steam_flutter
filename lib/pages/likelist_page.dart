@@ -1,47 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:projet_steam/blocs/lists/lists_bloc.dart';
 import 'package:projet_steam/components/game_card.dart';
+import 'package:projet_steam/repositories/firebase_repository.dart';
 
 import '../components/game_details_loader.dart';
 
 class LikeList extends StatelessWidget {
-  // TODO
-  final List<String> appIds = ["730","730", "730", "730", "730", "730", "730", "730", "730", "730", "730", "730", "730", "730", "730", "730",  /* Base de donnée */];
-
-  LikeList({super.key});
+  const LikeList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (_) =>
+          ListsBloc(repository: FirebaseRepository())..add(LoadLists()),
+      child: Scaffold(
         appBar: AppBar(
             title: Text(
           'Mes likes',
           style: Theme.of(context).textTheme.titleLarge,
         )),
-        body: Container(
-          padding: EdgeInsetsDirectional.only(top: 10),
-          decoration: BoxDecoration(),
-          width: double.infinity,
-          child: appIds.isEmpty
-              ? _emptyLikeList(context)
-              : SingleChildScrollView(
-                child: Column(
-                    children: [
-                      ...appIds.map(
-                        (appId) => SizedBox(
-                          height: 146,
-                          child: GameDetailsLoader(
-                            appId: appId,
-                            builder: (context, gameDetails) {
-                              return GameCard(gameDetails: gameDetails);
-                            },
-                          ),
-                        ),
+        body: BlocBuilder<ListsBloc, ListsState>(
+          builder: (context, state) {
+            if (state is ListsLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ListsLoaded) {
+              return _buildLikeList(context, state.likeList);
+            } else if (state is ListsError) {
+              return Center(child: Text('Erreur de chargement des listes'));
+            } else {
+              return SizedBox.shrink();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLikeList(BuildContext context, List<String> appIds) {
+    return Container(
+      padding: EdgeInsetsDirectional.only(top: 10),
+      decoration: BoxDecoration(),
+      width: double.infinity,
+      child: appIds.isEmpty
+          ? _emptyLikeList(context)
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  ...appIds.map(
+                    (appId) => SizedBox(
+                      height: 146,
+                      child: GameDetailsLoader(
+                        appId: appId,
+                        builder: (context, gameDetails) {
+                          return GameCard(gameDetails: gameDetails);
+                        },
                       ),
-                    ],
+                    ),
                   ),
+                ],
               ),
-        ));
+            ),
+    );
   }
 
   Widget _emptyLikeList(BuildContext context) {
