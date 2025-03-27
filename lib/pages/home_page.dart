@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:projet_steam/assets/app_colors.dart';
 import 'package:projet_steam/assets/app_icons.dart';
 import 'package:projet_steam/blocs/most_played_games/most_played_games_bloc.dart';
@@ -52,6 +53,16 @@ class _HomePageState extends State<HomePage> {
                 isSearching ? "Recherche" : "Acceuil",
                 style: Theme.of(context).appBarTheme.titleTextStyle,
               ),
+              actions: isSearching ? null : [
+                IconButton(
+                  icon: AppIcons.like.icon,
+                  onPressed: () => context.go("/likelist"),
+                ),
+                IconButton(
+                  icon: AppIcons.wishlist.icon,
+                  onPressed: () => context.go("/wishlist"),
+                ),
+              ],
             ),
             body: SingleChildScrollView(
               child: Padding(
