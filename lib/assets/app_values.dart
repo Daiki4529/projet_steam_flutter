@@ -1,0 +1,1 @@
+enum AppValues { gameDetailsDescriptionIndex, gameDetailsReviewsIndex }
