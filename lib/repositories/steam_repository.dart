@@ -77,16 +77,22 @@ class SteamRepository {
   }
 
   Future<List<Game>> searchGames(String query) async {
-    final url = 'https://steamcommunity.com/actions/SearchApps/$query';
+    final encodedQuery = Uri.encodeComponent(query);
+    final url = 'https://steamcommunity.com/actions/SearchApps/$encodedQuery';
+
     try {
       final response = await dioClient.dio.get(url);
-      final List<Game> games = [];
-      for (var item in response.data) {
-        games.add(Game.fromJson(item));
-      }
-      return games;
+
+      // The API returns a list of game objects
+      List<dynamic> jsonData = response.data;
+
+      // Map each JSON object to a Game model
+      return jsonData.map((game) => Game(
+        appId: game['appid']?.toString() ?? '',
+        rank: 0
+      )).toList();
     } catch (e) {
-      throw Exception('Erreur lors de la recherche du jeu: $e');
+      throw Exception('Failed to search games: $e');
     }
   }
 

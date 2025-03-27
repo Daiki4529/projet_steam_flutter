@@ -1,29 +1,29 @@
 part of 'search_games_bloc.dart';
 
-abstract class SearchGamesState extends Equatable {
-  const SearchGamesState();
+abstract class SearchState extends Equatable {
+  const SearchState();
 
   @override
   List<Object> get props => [];
 }
 
-class SearchGamesInitial extends SearchGamesState {}
+class SearchInitial extends SearchState {}
 
-class SearchGamesLoading extends SearchGamesState {}
+class SearchLoading extends SearchState {}
 
-class SearchGamesLoaded extends SearchGamesState {
+class SearchLoaded extends SearchState {
   final List<Game> games;
 
-  const SearchGamesLoaded({required this.games});
+  const SearchLoaded({required this.games});
 
   @override
   List<Object> get props => [games];
 }
 
-class SearchGamesError extends SearchGamesState {
+class SearchError extends SearchState {
   final String message;
 
-  const SearchGamesError({required this.message});
+  const SearchError({required this.message});
 
   @override
   List<Object> get props => [message];

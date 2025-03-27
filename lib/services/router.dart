@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:projet_steam/pages/game_details_page.dart';
 import 'package:projet_steam/pages/home_page.dart';
-import 'package:projet_steam/pages/like_list.dart';
-import 'package:projet_steam/pages/wish_list.dart';
+import 'package:projet_steam/pages/likelist_page.dart';
+import 'package:projet_steam/pages/home_page.dart';
+import 'package:projet_steam/pages/wishlist_page.dart';
 
 import '../components/game_details_loader.dart';
 
