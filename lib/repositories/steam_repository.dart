@@ -90,7 +90,7 @@ class SteamRepository {
       return jsonData.map((game) => Game(
         appId: game['appid']?.toString() ?? '',
         rank: 0
-      )).toList();
+      )).take(3).toList();
     } catch (e) {
       throw Exception('Failed to search games: $e');
     }

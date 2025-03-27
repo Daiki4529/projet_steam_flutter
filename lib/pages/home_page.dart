@@ -53,16 +53,18 @@ class HomePageState extends State<HomePage> {
                 isSearching ? "Recherche" : "Acceuil",
                 style: Theme.of(context).appBarTheme.titleTextStyle,
               ),
-              actions: isSearching ? null : [
-                IconButton(
-                  icon: AppIcons.like.icon,
-                  onPressed: () => context.go("/likelist"),
-                ),
-                IconButton(
-                  icon: AppIcons.wishlist.icon,
-                  onPressed: () => context.go("/wishlist"),
-                ),
-              ],
+              actions: isSearching
+                  ? null
+                  : [
+                      IconButton(
+                        icon: AppIcons.like.icon,
+                        onPressed: () => context.go("/likelist"),
+                      ),
+                      IconButton(
+                        icon: AppIcons.wishlist.icon,
+                        onPressed: () => context.go("/wishlist"),
+                      ),
+                    ],
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -224,13 +226,25 @@ class HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Text(
-            '${games.length} résultats trouvés',
-            style: const TextStyle(decoration: TextDecoration.underline),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Text(
+                '${games.length} résultats trouvés',
+                style: const TextStyle(
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+              const SizedBox(width: 8.0),
+              const Text(
+                '(max 3 pour les limites de l\'api)',
+                style:
+                    TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+              ),
+            ],
           ),
         ),
+
         // Single FutureBuilder for all games
         FutureBuilder<List<GameDetails>>(
           future: Future.wait(games
